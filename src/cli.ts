@@ -1,6 +1,3 @@
-#!/usr/bin/env bun
-// ^-- Shebang для прямого запуска через bun run
-
 import type { CliOptions } from './types.js'
 import c from 'ansis'
 import { Command } from 'commander'

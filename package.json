@@ -1,7 +1,7 @@
 {
   "name": "@injurkx/prompt-gen",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "packageManager": "bun@1.2.8",
   "description": "CLI tool to generate AI prompts from project files using ESM and Bun.",
