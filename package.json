@@ -1,7 +1,7 @@
 {
   "name": "@injurkx/prompt-gen",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "packageManager": "bun@1.2.8",
   "description": "CLI tool to generate AI prompts from project files using ESM and Bun.",
@@ -30,7 +30,7 @@
   "main": "./dist/cli.js",
   "types": "./dist/cli.d.ts",
   "bin": {
-    "prompt-gen": "./bin/prompt-gen.js"
+    "prompt-gen": "./bin/index.js"
   },
   "files": [
     "bin",
@@ -42,6 +42,7 @@
   "scripts": {
     "build": "tsup --config ./build/tsup.config.ts",
     "dev": "bun run src/cli.ts --",
+    "bin": "node bin/index.js",
     "start": "node dist/cli.js",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

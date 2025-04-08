@@ -12,5 +12,4 @@ export default defineConfig({
   dts: true, // Генерировать .d.ts файлы
   shims: true, // Добавить шиммы для __dirname, __filename
   outDir: 'dist', // Выходная директория
-  banner: { js: '#!/usr/bin/env node' },
 })
