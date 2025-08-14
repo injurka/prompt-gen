@@ -1,13 +1,20 @@
-import type { CliOptions } from './types.js'
+import type { CliOptions } from './types'
 import c from 'ansis'
 import { Command } from 'commander'
 import { cosmiconfig } from 'cosmiconfig'
 import { version } from '../package.json'
-import { generatePrompt } from './generate.js'
+import { generatePrompt } from './generate'
 
 const program = new Command()
 
-const explorer = cosmiconfig('prompt-gen')
+const explorer = cosmiconfig('prompt-gen', {
+  searchPlaces: [
+    'package.json',
+    '.prompt-genrc',
+    'prompt-gen.config.json',
+    'prompt-gen.config.js',
+  ],
+})
 
 program
   .name('prompt-gen')
@@ -38,9 +45,10 @@ program
   .option('-y, --yes', 'Skip interactive prompts (if any)', false)
   .action(async (optionsFromCommander: CliOptions) => {
     try {
-      const result = await explorer.search()
-      let optionsFromConfig: CliOptions = {}
+      const searchPath = process.cwd()
+      const result = await explorer.search(searchPath)
 
+      let optionsFromConfig: CliOptions = {}
       if (result) {
         console.log(c.green(`✓ Configuration loaded from: ${result.filepath}`))
         optionsFromConfig = result.config
@@ -66,7 +74,7 @@ program
       const finalOptions: CliOptions = {
         ...defaultOptions,
         ...optionsFromConfig,
-        ...cleanCliOptions, 
+        ...cleanCliOptions,
       }
 
       await generatePrompt(finalOptions)
