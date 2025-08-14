@@ -5,14 +5,15 @@ export interface FileInfo {
 }
 
 export interface CliOptions {
-  output: string
-  directory: string
-  extensions: string
-  maxSize: string
+  output?: string
+  directory?: string
+  extensions?: string
+  maxSize?: string
   includePaths?: string
   excludePaths?: string
-  gitignore: boolean // commander преобразует --no-gitignore в false
-  format: 'flat' | 'structured'
+  gitignore?: boolean
+  format?: 'flat' | 'structured'
   prefix?: string
   suffix?: string
+  yes?: boolean
 }

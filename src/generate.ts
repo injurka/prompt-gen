@@ -1,4 +1,4 @@
-import type { CliOptions, FileInfo } from './types.js'
+import type { CliOptions, FileInfo } from './types'
 import fs from 'node:fs'
 import path from 'node:path'
 import c from 'ansis'
@@ -82,10 +82,11 @@ function generateFileTree(files: FileInfo[]): string {
 
 export async function generatePrompt(options: CliOptions): Promise<void> {
   try {
-    const projectDir = path.resolve(options.directory)
-    const outputFilePath = path.resolve(options.output)
-    const includedExtensions = options.extensions.split(',').map(ext => ext.trim().toLowerCase())
-    const maxSizeKB = Number.parseInt(options.maxSize, 10)
+    // Options are now guaranteed to have default values from cli.ts
+    const projectDir = path.resolve(options.directory!)
+    const outputFilePath = path.resolve(options.output!)
+    const includedExtensions = options.extensions!.split(',').map(ext => ext.trim().toLowerCase())
+    const maxSizeKB = Number.parseInt(options.maxSize!, 10)
     const outputFormat = options.format === 'structured' ? 'structured' : 'flat'
 
     if (Number.isNaN(maxSizeKB) || maxSizeKB <= 0) {
