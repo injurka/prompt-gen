@@ -1,7 +1,7 @@
 {
   "name": "@injurkx/prompt-gen",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "packageManager": "bun@1.2.20",
   "description": "CLI tool to generate AI prompts from project files using ESM and Bun.",
@@ -46,7 +46,8 @@
     "start": "node dist/cli.js",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "prepack": "npm run build",
+    "prepack": "clean-package",
+    "postpack": "clean-package restore",
     "postinstall": "simple-git-hooks"
   },
   "dependencies": {
@@ -61,12 +62,26 @@
     "@types/glob": "^9.0.0",
     "@types/node": "^24.2.1",
     "bun-types": "latest",
+    "clean-package": "^2.2.0",
     "eslint": "^9.33.0",
     "eslint-plugin-format": "^1.0.1",
     "jiti": "^2.5.1",
     "simple-git-hooks": "^2.13.1",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2"
+  },
+  "clean-package": {
+    "remove": [
+      "scripts",
+      "engines",
+      "devDependencies",
+      "publishConfig",
+      "clean-package",
+      "packageManager",
+      "lint-staged",
+      "simple-git-hooks",
+      "config"
+    ]
   },
   "simple-git-hooks": {
     "pre-commit": "bunx lint-staged && bun run typecheck",

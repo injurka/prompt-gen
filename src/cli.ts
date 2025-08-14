@@ -1,13 +1,12 @@
-import type { CliOptions } from './types'
+import type { CliOptions } from './types.js'
 import c from 'ansis'
 import { Command } from 'commander'
 import { cosmiconfig } from 'cosmiconfig'
 import { version } from '../package.json'
-import { generatePrompt } from './generate'
+import { generatePrompt } from './generate.js'
 
 const program = new Command()
 
-// Create a cosmiconfig explorer
 const explorer = cosmiconfig('prompt-gen')
 
 program
@@ -39,11 +38,17 @@ program
   .option('-y, --yes', 'Skip interactive prompts (if any)', false)
   .action(async (optionsFromCommander: CliOptions) => {
     try {
-      // Search for a configuration file
       const result = await explorer.search()
-      const optionsFromConfig: CliOptions = result ? result.config : {}
+      let optionsFromConfig: CliOptions = {}
 
-      // Define default options
+      if (result) {
+        console.log(c.green(`✓ Configuration loaded from: ${result.filepath}`))
+        optionsFromConfig = result.config
+      }
+      else {
+        console.log(c.yellow('No configuration file found. Using defaults and command-line arguments.'))
+      }
+
       const defaultOptions: CliOptions = {
         output: 'prompt.txt',
         directory: '.',
@@ -54,11 +59,14 @@ program
         format: 'flat',
       }
 
-      // Merge options with precedence: Commander > Config File > Defaults
+      const cleanCliOptions = Object.fromEntries(
+        Object.entries(optionsFromCommander).filter(([, value]) => value !== undefined),
+      )
+
       const finalOptions: CliOptions = {
         ...defaultOptions,
         ...optionsFromConfig,
-        ...optionsFromCommander,
+        ...cleanCliOptions, 
       }
 
       await generatePrompt(finalOptions)
